@@ -1,4 +1,5 @@
 import WhereIsCapybaraImage from "./assets/where-is-capybara.png";
+
 import { useWhereCapybara } from "./hooks/useWhereCapybara";
 
 function App() {
