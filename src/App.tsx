@@ -1,9 +1,31 @@
 import WhereIsCapybaraImage from "./assets/where-is-capybara.png";
 
+import AddScoreForm from "./components/AddScoreForm";
+import Modal from "./components/Modal";
+import Scores from "./components/Scores";
+
 import { useWhereCapybara } from "./hooks/useWhereCapybara";
 
+import { useGameStore } from "./stores/useGameStore";
+
 function App() {
-  const { imageContainerRef, targetVisible, targetPosition, handleImageClick } = useWhereCapybara();
+  const { imageContainerRef, handleImageClick } = useWhereCapybara();
+  const {
+    targetVisible,
+    targetPosition,
+    modalOpen,
+    modalTitle,
+    modalMessage,
+    modalVariant,
+    modalConfirmText,
+    modalCancelText,
+    modalShowCloseButton,
+    showScoreForm,
+    showScores,
+    showImage,
+    hideModal,
+    modalOnConfirm,
+  } = useGameStore();
 
   return (
     <>
@@ -20,7 +42,9 @@ function App() {
         </p>
       </div>
 
-      <div className="flex items-center justify-center">
+      {showScores ? <Scores /> : null}
+
+      {showImage ? <div className="flex items-center justify-center">
         <div
           ref={imageContainerRef}
           className="relative bg-gray-100 rounded-lg overflow-hidden"
@@ -45,7 +69,22 @@ function App() {
             </div>
           )}
         </div>
-      </div>
+      </div> : null}
+
+      {modalOpen ? (
+        <Modal
+          open={modalOpen}
+          title={modalTitle}
+          message={modalMessage}
+          variant={modalVariant}
+          confirmText={modalConfirmText}
+          cancelText={modalCancelText}
+          showCloseButton={modalShowCloseButton}
+          onClose={hideModal}
+          onConfirm={modalOnConfirm}
+        />
+      ) : null}
+      {showScoreForm ? <AddScoreForm /> : null}
     </>
   );
 }
